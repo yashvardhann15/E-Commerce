@@ -1,4 +1,4 @@
-package com.example.product.dtos;
+package com.example.product.dtos.New;
 
 import com.example.product.models.Product;
 import com.example.product.models.Category;

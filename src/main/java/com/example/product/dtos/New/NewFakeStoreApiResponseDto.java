@@ -1,4 +1,4 @@
-package com.example.product.dtos;
+package com.example.product.dtos.New;
 
 import lombok.Getter;
 import lombok.Setter;

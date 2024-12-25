@@ -12,5 +12,5 @@ public interface ProductService {
 
     Product getSingleProduct(long id);
 
-    Product createProduct(CreateProductRequestDto createProductRequestDto);
+    Product createProduct(String title, String description, String image, String category, double price);
 }

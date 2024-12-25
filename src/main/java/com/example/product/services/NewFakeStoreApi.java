@@ -1,26 +1,30 @@
 
 package com.example.product.services;
 
-import org.springframework.context.annotation.Primary;
+import com.example.product.dtos.New.NewFakeStoreApiResponseListDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.product.dtos.CreateProductRequestDto;
-import com.example.product.dtos.NewFakeStoreApiResponseDto;
-import com.example.product.dtos.NewFakeStoreProductDto;
+import com.example.product.dtos.New.NewFakeStoreApiResponseDto;
 import com.example.product.models.Product;
 import java.util.List;
 
 @Service("NewFakeStoreApi")
-@Primary
+//@Primary
 public class NewFakeStoreApi implements ProductService{
     RestTemplate restTemplate;
     public NewFakeStoreApi(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
+    @SuppressWarnings("null")
     @Override
     public List<Product> getAllProducts(){
+        String url = "https://fakestoreapi.in/api/products";
+        NewFakeStoreApiResponseListDto response = restTemplate.getForObject(url , NewFakeStoreApiResponseListDto.class);
+        if(response != null){
+            return response.toProdList();
+        }
         return null;
     }
 
@@ -32,11 +36,11 @@ public class NewFakeStoreApi implements ProductService{
         if (response != null && response.getProduct() != null) {
             return response.getProduct().toProduct();
         }
-        return null; 
+        return null;
     }
 
     @Override
-    public Product createProduct(CreateProductRequestDto createProductRequestDto){
+    public Product createProduct(String title, String description, String image, String category, double price){
         return null;
     }
 }

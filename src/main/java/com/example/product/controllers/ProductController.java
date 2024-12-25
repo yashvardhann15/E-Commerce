@@ -2,6 +2,8 @@ package com.example.product.controllers;
 
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.product.dtos.CreateProductRequestDto;
@@ -16,7 +18,7 @@ public class ProductController {
 
     public ProductService productService;
 
-    public ProductController(@Qualifier("NewFakeStoreApi") ProductService productService){
+    public ProductController(@Qualifier("FakeStoreProductService") ProductService productService){
 
         this.productService = productService;
     }
@@ -37,8 +39,16 @@ public class ProductController {
     GET /products/{id}
      */
     @GetMapping("/products/{id}")
-    public Product getSingleProduct(@PathVariable("id") long id){
-        return productService.getSingleProduct(id);
+    public ResponseEntity<Product> getSingleProduct(@PathVariable("id") long id){
+        Product p = productService.getSingleProduct(id);
+        ResponseEntity<Product> responseEntity;
+        if(p == null){
+            responseEntity = new ResponseEntity<>(p, HttpStatus.NOT_FOUND);
+        }
+        else{
+            responseEntity = new ResponseEntity<>(p, HttpStatus.OK);
+        }
+        return responseEntity;
     }
 
     /*
@@ -53,6 +63,6 @@ public class ProductController {
      */
     @PostMapping("/products")
     public Product createProduct(@RequestBody CreateProductRequestDto createProductRequestDto){
-        return productService.createProduct(createProductRequestDto);
+        return productService.createProduct(createProductRequestDto.getTitle(), createProductRequestDto.getDescription(), createProductRequestDto.getImage(), createProductRequestDto.getCategory(), createProductRequestDto.getPrice());
     }
 }
