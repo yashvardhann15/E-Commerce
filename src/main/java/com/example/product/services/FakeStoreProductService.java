@@ -1,6 +1,7 @@
         package com.example.product.services;
 
 
+import com.example.product.Exceptions.ProductNotFoundException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -36,21 +37,17 @@ public class FakeStoreProductService implements ProductService{
         return products;
     }
 
+//    throws ProductNotFoundException
     @Override
     public Product getSingleProduct(long id) {
-        /*
-        call the external fakestore product api
-        'https://fakestoreapi.com/products/1'
-         */
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = restTemplate.getForEntity("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
+        FakeStoreProductDto fake = fakeStoreProductDto.getBody();
 
-        if(fakeStoreProductDto.getStatusCode() == HttpStatusCode.valueOf(500)){
-            return null;
+        if(fake == null){
+            throw new ProductNotFoundException("Product with id " + id + " not found");
         }
-        else {
-            FakeStoreProductDto fake = fakeStoreProductDto.getBody();
-            return fake.toProduct();
-        }
+
+        return fake.toProduct();
     }
 
     @SuppressWarnings("null")
