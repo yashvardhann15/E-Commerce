@@ -2,6 +2,8 @@ package com.example.product.controllers;
 
 
 import com.example.product.Exceptions.ProductNotFoundException;
+import com.example.product.models.Category;
+import com.example.product.projections.ProjectProjection;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,22 @@ public class ProductController {
     public Product createProduct(@RequestBody CreateProductRequestDto createProductRequestDto){
         return productService.createProduct(createProductRequestDto.getTitle(), createProductRequestDto.getDescription(), createProductRequestDto.getImage(), createProductRequestDto.getCategory(), createProductRequestDto.getPrice());
     }
+
+//    @GetMapping("/products/categoryC")
+//    public List<Product> getProductsByCategory(@RequestBody Category category){
+//        return productService.findAllByCategory(category);
+//    }
+
+    @GetMapping("/products/category/{categoryTitle}")
+    public List<Product> getProductsByCategory(@PathVariable("categoryTitle") String category){
+        return productService.findAllByCategory_Title(category);
+    }
+
+    @GetMapping("/products/category/{categoryName}/titles")
+    public List<ProjectProjection> getTitlesOfAllProductsWithGivenCategoryName(@PathVariable("categoryName") String categoryName){
+        return productService.getTitlesAndIdOfAllProductsWithGivenCategoryName(categoryName);
+    }
+
 
 //    @ExceptionHandler(ProductNotFoundException.class)
 //    public ResponseEntity<ErrorDto> handleProductNotFoundException(ProductNotFoundException e){

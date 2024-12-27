@@ -2,6 +2,8 @@
 package com.example.product.services;
 
 import com.example.product.dtos.New.NewFakeStoreApiResponseListDto;
+import com.example.product.models.Category;
+import com.example.product.projections.ProjectProjection;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,6 +43,23 @@ public class NewFakeStoreApi implements ProductService{
 
     @Override
     public Product createProduct(String title, String description, String image, String category, double price){
+        return null;
+    }
+
+    @Override
+    public List<Product> findAllByCategory(Category category){
+//        return productRepository.findAllByCategory(category);
+        return null;
+    }
+
+    @Override
+    public List<Product> findAllByCategory_Title(String CategoryName){
+//        return productRepository.findAllByCategory_Name(CategoryName);
+        return null;
+    }
+
+    @Override
+    public List<ProjectProjection> getTitlesAndIdOfAllProductsWithGivenCategoryName(String categoryName){
         return null;
     }
 }

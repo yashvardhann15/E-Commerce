@@ -2,6 +2,8 @@
 
 
 import com.example.product.Exceptions.ProductNotFoundException;
+import com.example.product.models.Category;
+import com.example.product.projections.ProjectProjection;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -63,6 +65,23 @@ public class FakeStoreProductService implements ProductService{
         String url = "https://fakestoreapi.com/products/";
         FakeStoreProductDto response = restTemplate.postForObject(url, fake, FakeStoreProductDto.class);
         if(response != null) return response.toProduct();
+        return null;
+    }
+
+    @Override
+    public List<Product> findAllByCategory(Category category){
+//        return productRepository.findAllByCategory(category);
+        return null;
+    }
+
+    @Override
+    public List<Product> findAllByCategory_Title(String CategoryName){
+//        return productRepository.findAllByCategory_Name(CategoryName);
+        return null;
+    }
+
+    @Override
+    public List<ProjectProjection> getTitlesAndIdOfAllProductsWithGivenCategoryName(String categoryName){
         return null;
     }
 }

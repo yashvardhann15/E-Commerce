@@ -2,6 +2,8 @@ package com.example.product.services;
 
 import com.example.product.models.Category;
 import com.example.product.models.Product;
+import com.example.product.Exceptions.ProductNotFoundException;
+import com.example.product.projections.ProjectProjection;
 import com.example.product.repositories.CategoryRepository;
 import com.example.product.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service("SelfProductService")
 public class SelfProductService implements ProductService{
@@ -22,11 +25,15 @@ public class SelfProductService implements ProductService{
 
     @Override
     public List<Product> getAllProducts(){
-        return null;
+        return productRepository.findAll();
     }
     @Override
     public Product getSingleProduct(long id) {
-        return null;
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isEmpty()){
+            throw new ProductNotFoundException("Product with id: " + id + " not found in the database.");
+        }
+        return product.get();
     }
     @Override
     public Product createProduct(String title, String description, String image, String category, double price){
@@ -46,5 +53,20 @@ public class SelfProductService implements ProductService{
         }
         Product createdProduct = productRepository.save(product);
         return createdProduct;
+    }
+
+    @Override
+    public List<Product> findAllByCategory(Category category){
+        return productRepository.findAllByCategory(category);
+    }
+
+    @Override
+    public List<Product> findAllByCategory_Title(String CategoryName){
+        return productRepository.findAllByCategory_Title(CategoryName);
+    }
+
+    @Override
+    public List<ProjectProjection> getTitlesAndIdOfAllProductsWithGivenCategoryName(String categoryName){
+        return productRepository.getTitlesAndIdOfAllProductsWithGivenCategoryName(categoryName);
     }
 }
