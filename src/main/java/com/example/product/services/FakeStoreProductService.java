@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("FakeStoreProductService")
-//@Primary
 public class FakeStoreProductService implements ProductService{
     private RestTemplate restTemplate; //using this, you will be able to call 3rd party apis
 
@@ -42,6 +41,10 @@ public class FakeStoreProductService implements ProductService{
 //    throws ProductNotFoundException
     @Override
     public Product getSingleProduct(long id) {
+
+        //        calling user service
+        restTemplate.getForObject("http://userservice/users/sample" , void.class);  //case insensitive
+
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = restTemplate.getForEntity("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
         FakeStoreProductDto fake = fakeStoreProductDto.getBody();
 
